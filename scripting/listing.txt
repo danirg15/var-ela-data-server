@@ -1,0 +1,10 @@
+
+
+find . -type f -name "*.genome.vcf.gz" | xargs du -ha
+
+
+VCFTools 
+https://vcftools.github.io/man_latest.html
+
+BCFTools
+https://vcftools.github.io/htslib.html#stats
