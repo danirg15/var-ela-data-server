@@ -1,0 +1,40 @@
+{
+  "name": "seed-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "run": "forever start server.js",
+    "start": "export NODE_ENV=dev && nodemon server",
+    "test": "export NODE_ENV=test && mocha --recursive --timeout 10000"
+  },
+  "author": "dani",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "axios": "^0.16.0",
+    "body-parser": "^1.14.2",
+    "config": "^1.21.0",
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "express-session": "^1.14.2",
+    "express-validation": "^1.0.0",
+    "forever": "^0.15.3",
+    "helmet": "^3.4.0",
+    "joi": "^8.4.2",
+    "jsonwebtoken": "^7.1.7",
+    "moment": "^2.12.0",
+    "moment-timezone": "^0.5.11",
+    "mongoose": "^4.3.7",
+    "nodemon": "^1.12.1",
+    "password-hash": "^1.2.2",
+    "shelljs": "^0.7.8"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "gulp": "^3.9.1",
+    "mocha": "^3.0.0",
+    "morgan": "^1.6.1"
+  }
+}
