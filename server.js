@@ -61,11 +61,10 @@ server.listen(port, function(err) {
 })
 
 
-
-const Analysis = require('./models/analysis')
-Analysis.findOne({}, (err, analysis) => {
-	require('./jobs/AnalysisJob').handle(analysis)
-})
+// const Analysis = require('./models/analysis')
+// Analysis.findOne({}, (err, analysis) => {
+// 	require('./jobs/AnalysisJob').handle(analysis)
+// })
 
 
 

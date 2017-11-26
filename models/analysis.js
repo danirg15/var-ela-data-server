@@ -26,7 +26,8 @@ const AnalysisSchema = mongoose.Schema({
 		}
 	},
 	'failed': { 'type': Boolean, 'default': false },
-	'error_message': { 'type': String, 'default': '' }
+	'error_message': { 'type': String, 'default': '' },
+	'finishedAt':  { 'type': Date, 'default': null }
 },{
 	timestamps: true
 });

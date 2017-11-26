@@ -13,8 +13,6 @@ self = module.exports = {
     },
 
     store: (analysis, callback) => {
-        analysis.progress.stages.submit = true
-        analysis.progress.percent = 20
         (new Analysis(analysis)).save(callback)
     }, 
 
@@ -83,6 +81,7 @@ self = module.exports = {
         analysis.progress.percent = 100
         analysis.failed = false
         analysis.error_message = ""
+        analysis.finishedAt = new Date()
         self.update(analysis, (err) => { console.log(err) })
     },
 
