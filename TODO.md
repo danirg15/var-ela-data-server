@@ -1,3 +1,5 @@
+https://github.com/OptimalBits/bull
+
 Workflow:
 	App server sends:
 		a) JSON config file

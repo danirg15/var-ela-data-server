@@ -5,6 +5,8 @@ const AnalysisSchema = mongoose.Schema({
 	'description': 	{ 'type': String, 'required': false, 'default': ''},
 	'author': 		{ 'type': String, 'required': true },
 	'config': { 
+		'input_file': 		{ 'type': String, 'required': true },
+		'output_file': 		{ 'type': String, 'required': true },
 		'min-mean-dp': 		{ 'type': Number, 'required': false, 'default': '' },
 		'max-mean-dp': 		{ 'type': Number, 'required': false, 'default': '' },
 		'min-quality': 		{ 'type': Number, 'required': false, 'default': '' },
@@ -22,7 +24,9 @@ const AnalysisSchema = mongoose.Schema({
 			'stats': 		{ 'type': Boolean, 'default': false },
 			'completed': 	{ 'type': Boolean, 'default': false }
 		}
-	}
+	},
+	'failed': { 'type': Boolean, 'default': false },
+	'error_message': { 'type': String, 'default': '' }
 },{
 	timestamps: true
 });
