@@ -29,8 +29,7 @@ self = module.exports = {
     },
 
     filtering: (analysis, callback) => {
-        const command = 'echo "Hello World"'//CommandController.buildFilteringCommand(analysis)
-        
+        const command = CommandController.buildFilteringCommand(analysis)
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.filtering = true

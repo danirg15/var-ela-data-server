@@ -9,7 +9,6 @@ const session = 		require('express-session')
 const env = 			require('dotenv').config()
 const logger = 			require('morgan')
 const config = 			require('config')
-// const auth = 			require('./middleware/jwtAuth')
 const moment_tz = 		require('moment-timezone')
 const helmet = 			require('helmet')
 
@@ -63,6 +62,7 @@ server.listen(port, function(err) {
 
 // const Analysis = require('./models/analysis')
 // Analysis.findOne({}, (err, analysis) => {
+// 	//console.log(analysis)
 // 	require('./jobs/AnalysisJob').handle(analysis)
 // })
 

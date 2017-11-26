@@ -1,0 +1,23 @@
+version: '2'
+services:
+  data_server:
+    build:
+      context: ./docker/data_server
+      dockerfile: Dockerfile
+    image: als/data_server
+    volumes:
+     - .:/home
+    ports:
+     - "5000:5000"
+    links:
+     - mongo_database
+
+  mongo_database:
+    image: mongo:latest
+    container_name: "als_mongodb"
+    volumes:
+      - ./tmp/data/db:/data/db
+    ports:
+        - 27017:27017
+
+
