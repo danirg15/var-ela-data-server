@@ -43,6 +43,7 @@ require('./database').connect(config.DB_URI)
 //		Routing
 //--------------------------------------------
 app.use('/api/analysis', require('./routes/analysis.routes'))
+app.use('/api/sites', require('./routes/sites.routes'))
 
 
 app.use(function(err, req, res, next){
@@ -60,17 +61,17 @@ server.listen(port, function(err) {
 })
 
 
-const Analysis = require('./models/analysis')
-Analysis.findOne({}, (err, analysis) => {
-	console.log(analysis)
+// const Analysis = require('./models/analysis')
+// Analysis.findOne({}, (err, analysis) => {
+// 	console.log(analysis)
 
-	// require('./controllers/AnalysisController').import(analysis, (err) => {
-	// 	if (err) throw err 
-	// 	else console.log('Finished')
-	// })
+// 	// require('./controllers/AnalysisController').import(analysis, (err) => {
+// 	// 	if (err) throw err 
+// 	// 	else console.log('Finished')
+// 	// })
 
-	//require('./jobs/AnalysisJob').handle(analysis)
-})
+// 	//require('./jobs/AnalysisJob').handle(analysis)
+// })
 
 
 
