@@ -22,6 +22,7 @@ const AnalysisSchema = mongoose.Schema({
 			'filtering': 	{ 'type': Boolean, 'default': false },
 			'annotating': 	{ 'type': Boolean, 'default': false },
 			'stats': 		{ 'type': Boolean, 'default': false },
+			'import': 		{ 'type': Boolean, 'default': false },
 			'completed': 	{ 'type': Boolean, 'default': false }
 		}
 	},

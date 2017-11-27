@@ -18,6 +18,10 @@ module.exports = {
             //Stage 4: Stats
             function(callback) {
                 AnalysisController.stats(analysis, callback)
+            },
+            //Stage 5: Import
+            function(callback) {
+                AnalysisController.import(analysis, callback)
             }
         ], function (err) {
             if (err) {

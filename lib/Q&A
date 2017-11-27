@@ -1,11 +1,8 @@
-1. 431 VCF files: .genome.vcf.gz
-	Total 300GB
-	Procesamiento 1 file: 70secs
 
-	Comentar tiempos de analisis? //Peor caso fichero a fichero 7horas. 
 
-1.1 Revisar concat de ficheros:
-	*Columna ejemplo LP6008242-DNA_A01, 
+1. Quality field can be bigger than 100
+
+
 
 2.	Preprocesado de los registros
 	input minDP 3

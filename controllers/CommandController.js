@@ -34,7 +34,7 @@ module.exports = {
             command += ' --remove-indels '
         }
 
-        command += ' --recode --stdout | gzip -c > ' + base_path + '/output/' + analysis.config['output_file']
+        command += ' --recode --stdout > ' + base_path + '/output/' + analysis.config['output_file']
 
         return command
     }
