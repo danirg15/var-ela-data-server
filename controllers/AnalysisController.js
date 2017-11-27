@@ -88,7 +88,7 @@ self = module.exports = {
                 let site_record = {
                     'CHROM': data[0],
                     'POS': data[1],
-                    'ID': data[2],
+                    'ID': data[2] == '.' ? '' : data[2],
                     'REF': data[3],
                     'ALT': data[4],
                     'QUAL': data[5],

@@ -11,11 +11,12 @@ const logger = 			require('morgan')
 const config = 			require('config')
 const moment_tz = 		require('moment-timezone')
 const helmet = 			require('helmet')
-
+const cors =			require('cors')
 //--------------------------------------------
 //		Middlewares
 //--------------------------------------------
 app.use(helmet())
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(session({ secret: process.env.APP_KEY, resave: false, saveUninitialized: false }));

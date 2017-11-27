@@ -16,6 +16,7 @@
     "body-parser": "^1.14.2",
     "bull": "^3.3.6",
     "config": "^1.21.0",
+    "cors": "^2.8.4",
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
     "express-session": "^1.14.2",
