@@ -1,6 +1,6 @@
 const Site = require('../models/site')
 
-self = module.exports = {
+module.exports = {
 
     find: (options, callback) => {
     	const limit = 30

@@ -4,7 +4,7 @@
 # --remove-indels
 
 input="./data/input/LP6008242-DNA_A01.genome.vcf.gz"
-output="./data/output/output.genome.vcf"
+output="./data/output/output.genome.vcf.gz"
 
 	
 vcftools --gzvcf $input \
@@ -14,6 +14,6 @@ vcftools --gzvcf $input \
 		--remove-filtered-all \
 		--remove-indels \
 		--recode \
-		--stdout > $output
+		--stdout | bgzip -c > $output
 
 # du -ha data/

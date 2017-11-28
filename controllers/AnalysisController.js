@@ -31,7 +31,8 @@ self = module.exports = {
     },
 
     filtering: (analysis, callback) => {
-        const command = CommandController.buildFilteringCommand(analysis)
+        const command = 'echo 1'//CommandController.buildFilteringCommand(analysis)
+
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.filtering = true
@@ -39,15 +40,15 @@ self = module.exports = {
                 self.update(analysis, (err) => { console.log(err) })
                 callback(null);
             } else {
-                callback("Could execute filtering stage")
+                callback("Couldn't execute filtering stage")
             }
         })
 
     },
 
     annotating: (analysis, callback) => {
-        const command = 'echo "Hello World"'//CommandController.buildFilteringCommand(analysis)
-        
+        const command = CommandController.buildAnnotatingCommand(analysis)
+
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.annotating = true
@@ -55,7 +56,7 @@ self = module.exports = {
                 self.update(analysis, (err) => { console.log(err) })
                 callback(null);
             } else {
-                callback("Could execute annotating stage")
+                callback("Couldn't execute annotating stage")
             }
         })
 
@@ -71,7 +72,7 @@ self = module.exports = {
                 self.update(analysis, (err) => { console.log(err) })
                 callback(null);
             } else {
-                callback("Could execute stats stage")
+                callback("Couldn't execute stats stage")
             }
         })
 
@@ -94,8 +95,15 @@ self = module.exports = {
                     'QUAL': data[5],
                     'FILTER': data[6],
                     'INFO': data[7] == '.' ? '' : data[7],
+                    'GENE': '',
                     'FORMAT': data[8],
                     'DATA': data[9]
+                }
+
+                let gene = site_record['INFO'].match(/GENE=\w+/)
+                if (gene && gene[0]) {
+                    gene = gene[0]
+                    site_record['GENE'] = gene.split('=')[1]
                 }
 
                 let site = new Site(site_record)

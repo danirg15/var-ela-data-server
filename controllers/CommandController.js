@@ -1,10 +1,19 @@
+const base_path = './lib/data'
 
 module.exports = {
 
-    buildFilteringCommand: (analysis) => {
+    buildAnnotatingCommand: (analysis) => {
+        let command = 'bcftools annotate'
+        command += ' -a ' + base_path + '/hg19.bed.gz'
+        command += ' -c CHROM,FROM,TO,GENE '
+        command += ' -h ' + base_path + '/hg19header.hdr '
+        command += base_path + '/output/' + analysis.config['output_file']+'.gz'
+        command += ' > ' + base_path + '/output/' + analysis.config['output_file']
 
-        const base_path = './lib/data'
-        
+        return command
+    },
+
+    buildFilteringCommand: (analysis) => {        
         let command = "vcftools --gzvcf " + base_path + '/input/' + analysis.config['input_file']
 
         if (analysis.config['min-mean-dp'] != '' && analysis.config['min-mean-dp'] != null) {
@@ -34,7 +43,8 @@ module.exports = {
             command += ' --remove-indels '
         }
 
-        command += ' --recode --stdout > ' + base_path + '/output/' + analysis.config['output_file']
+        //command += ' --recode --stdout > ' + base_path + '/output/' + analysis.config['output_file']
+        command += ' --recode --stdout | gzip -c > ' + base_path + '/output/' + analysis.config['output_file']+'.gz'
 
         return command
     }

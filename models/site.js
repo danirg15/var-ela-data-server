@@ -9,6 +9,7 @@ const SiteSchema = mongoose.Schema({
 	'QUAL': 	{ 'type': Number, 'default': '' },
 	'FILTER': 	{ 'type': String, 'default': '' },
 	'INFO': 	{ 'type': String, 'default': '' },
+	'GENE': 	{ 'type': String, 'default': '' },
 	'FORMAT': 	{ 'type': String, 'default': '' },
 	'DATA': 	{ 'type': String, 'default': '' }
 });

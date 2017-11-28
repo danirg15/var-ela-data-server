@@ -1,26 +1,8 @@
 
-
-1. Quality field can be bigger than 100
-
-
-
-2.	Preprocesado de los registros
-	input minDP 3
-	input maxDP 10
-	input minQuality 
-	input keep-only-PASS
-	select INDELS o SPN's
-	*Anadir campo para filtrar SNP.
-	*Anadir --maf <float>
-	*Ver todos los posibles: https://vcftools.github.io/man_latest.html
-
 3.	Añadir la anotación de los genes: Habría que mapear las posiciones de los genes (os mandaría el archivo bed del genoma hg19) con el campo indicado en POS. 
 	*Las anotaciones son para poder hacer luego querys en buscador?
 	*BED file, siempre el mismo?
 	*Poder cargar fichero BED.
-
-4.	Seleccionar las variaciones según sean SNPs ó INDELs. 
-	*Se puede hacer en el preprocesado?
 
 5.	En el caso de los SNPs habría que seleccionar los que tienen en ID el número rs y mapear para ver si tiene anotación en Clinvar (https://www.ncbi.nlm.nih.gov/clinvar/), se podría hacer con algunas otras bases de datos clínicas interesantes como COSMIC que es para cáncer…
 		
@@ -35,21 +17,4 @@
 
 		FTP Clinvar: ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/ 
 		COSMIC: ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/
-
-		*Revisar opcion:
-			--snp <string>
-			Include SNP(s) with matching ID (e.g. a dbSNP rsID). This command can be used multiple times in order to include more than one SNP.
-
-		*Las BBDD clinicas tendran que ser actualizadas cada cierto tiempo?.
-
-6.	Obtención de una tabla con los resultados de variantes obtenidas haciendo búsqueda por genes. 
-	*Definir los criterios de busqueda sobre el fichero final procesado, anotado...
-		Filtrar solo cosmic,
-		Filtrar solo clinvar,
-		Filtrar SNP's
-		Filtrar por rs
-
-	*Definir que datos se pueden representar con graficos. 
-		// Estadisticas que se sacan con VCFTools
-		Por definir
 
