@@ -72,7 +72,7 @@ Analysis.findOne({}, (err, analysis) => {
 	// 	else console.log('Finished')
 	// })
 
-	//require('./jobs/AnalysisJob').handle(analysis)
+	require('./jobs/AnalysisJob').handle(analysis)
 })
 
 

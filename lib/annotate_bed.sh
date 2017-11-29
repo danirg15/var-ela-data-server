@@ -1,5 +1,5 @@
 # cut -f1,2,3,4 < hg19.bed > example.bed
-# sort -k1,1 -k2,2n example.bed > example.sorted.bed
+#sort -k1,1 -k2,2n ./data/hg19.bed > ./data/hg19.bed.sorted
 # bgzip example.sorted.bed
 # tabix -s 1 -b 2 -e 3 example.sorted.bed.gz
 
