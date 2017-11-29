@@ -26,6 +26,7 @@ module.exports = {
         ], function (err) {
             if (err) {
                 AnalysisController.failed(analysis, err)
+                throw err
             }
             else {
                 AnalysisController.completed(analysis)

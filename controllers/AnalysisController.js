@@ -31,13 +31,19 @@ self = module.exports = {
     },
 
     filtering: (analysis, callback) => {
-        const command = 'echo 1'//CommandController.buildFilteringCommand(analysis)
+        console.log('Init Filtering Stage')
+
+        const command = CommandController.buildFilteringCommand2(analysis)
+        //const command = 'echo 1'
 
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.filtering = true
                 analysis.progress.percent = 40
                 self.update(analysis, (err) => { console.log(err) })
+
+                console.log('Finish Filtering Stage')
+
                 callback(null);
             } else {
                 callback("Couldn't execute filtering stage")
@@ -47,13 +53,16 @@ self = module.exports = {
     },
 
     annotating: (analysis, callback) => {
+        console.log('Init Annotating Stage')
         const command = CommandController.buildAnnotatingCommand(analysis)
+        //const command = 'echo 1'
 
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.annotating = true
                 analysis.progress.percent = 60
                 self.update(analysis, (err) => { console.log(err) })
+                console.log('Finish Annotating Stage')
                 callback(null);
             } else {
                 callback("Couldn't execute annotating stage")
@@ -63,13 +72,18 @@ self = module.exports = {
     },
 
     stats: (analysis, callback) => {
-        const command = 'echo "Hello World"'//CommandController.buildFilteringCommand(analysis)
+        console.log('Init Stats Stage')
+
+        const command = 'echo 1'
         
         shell.exec(command, function(code, stdout, stderr) {
             if (code === 0) {
                 analysis.progress.stages.stats = true
                 analysis.progress.percent = 80
                 self.update(analysis, (err) => { console.log(err) })
+
+                console.log('Finish Stats Stage')
+
                 callback(null);
             } else {
                 callback("Couldn't execute stats stage")
@@ -79,6 +93,7 @@ self = module.exports = {
     },
 
     import: (analysis, callback) => {
+        console.log('Init Import Stage')
         const base_path = './lib/data/output/'
         const reader = readline(base_path + analysis.config['output_file']);
 
@@ -89,34 +104,46 @@ self = module.exports = {
                 let site_record = {
                     'CHROM': data[0],
                     'POS': data[1],
-                    'ID': data[2] == '.' ? '' : data[2],
+                    'ID': data[2] == '.' ? [] : data[2].split(';'),
                     'REF': data[3],
                     'ALT': data[4],
                     'QUAL': data[5],
                     'FILTER': data[6],
-                    'INFO': data[7] == '.' ? '' : data[7],
+                    'INFO': data[7].split(';'),
                     'GENE': '',
                     'FORMAT': data[8],
-                    'DATA': data[9]
+                    'DATA': data[9],
+                    'clinical_annotation': {
+                        'cosmic':   '',
+                        'clinvar':  ''
+                    },
                 }
 
-                let gene = site_record['INFO'].match(/GENE=\w+/)
-                if (gene && gene[0]) {
-                    gene = gene[0]
-                    site_record['GENE'] = gene.split('=')[1]
-                }
-
+                site_record['INFO'].forEach((tag) => {
+                    if (tag.includes('GENE')) {
+                        site_record['GENE'] = tag.split('=')[1]
+                    }
+                    if(tag.includes('clinvar')) {
+                        site_record['clinical_annotation']['clinvar'] = tag.split('=')[1]
+                    }
+                    if(tag.includes('cosmic')) {
+                        site_record['clinical_annotation']['cosmic'] = tag.split('=')[1]
+                    }
+                })
+            
                 let site = new Site(site_record)
                 site.save((err) => {
                     if (err)  callback(err)
                 })
-
             }
         })
         .on('end', function() {
             analysis.progress.stages.import = true
             analysis.progress.percent = 100
             self.update(analysis, (err) => { console.log(err) })
+
+            console.log('Finish Annotating Stage')
+
             callback(null)
         })
         .on('error', function(e) {
@@ -131,12 +158,18 @@ self = module.exports = {
         analysis.error_message = ""
         analysis.finishedAt = new Date()
         self.update(analysis, (err) => { console.log(err) })
+
+        console.log('Finish Completed Stage')
+
     },
 
     failed: (analysis, message) => {
         analysis.failed = true
         analysis.error_message = message
         self.update(analysis, (err) => { console.log(err) })
+
+        console.log('Finish Failed Stage')
+
     }
 
 };

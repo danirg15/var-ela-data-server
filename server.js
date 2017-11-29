@@ -66,13 +66,14 @@ const Analysis = require('./models/analysis')
 Analysis.findOne({}, (err, analysis) => {
 	console.log(analysis)
 
+	//console.log(require('./controllers/CommandController').buildFilteringCommand2(analysis))
 
 	// require('./controllers/AnalysisController').import(analysis, (err) => {
 	// 	if (err) throw err 
 	// 	else console.log('Finished')
 	// })
 
-	require('./jobs/AnalysisJob').handle(analysis)
+	//require('./jobs/AnalysisJob').handle(analysis)
 })
 
 

@@ -7,13 +7,13 @@ const AnalysisSchema = mongoose.Schema({
 	'config': { 
 		'input_file': 		{ 'type': String, 'required': true },
 		'output_file': 		{ 'type': String, 'required': true },
-		'min-mean-dp': 		{ 'type': Number, 'required': false, 'default': '' },
-		'max-mean-dp': 		{ 'type': Number, 'required': false, 'default': '' },
+		'min-dp': 			{ 'type': Number, 'required': false, 'default': '' },
+		'max-dp': 			{ 'type': Number, 'required': false, 'default': '' },
 		'min-quality': 		{ 'type': Number, 'required': false, 'default': '' },
 		'remove-non-passing-sites': { 'type': Boolean, 'required': false, 'default': '' },
-		'keep-only-indels': { 'type': Boolean, 'required': false, 'default': '' },
-		'min-maf': 			{ 'type': Number, 'required': false, 'default': '' },
-		'max-maf': 			{ 'type': Number, 'required': false, 'default': '' },
+		'site-types': 		[{ 'type': String, 'required': false, 'default': '' }],
+		'min-maf': 				{ 'type': Number, 'required': false, 'default': '' },
+		'max-maf': 				{ 'type': Number, 'required': false, 'default': '' },
 	},
 	'progress' : {
 		'percent': { 'type': Number, 'required': false, 'default': 0 },
