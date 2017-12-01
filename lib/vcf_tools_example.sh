@@ -7,12 +7,16 @@ input="./data/input/LP6008242-DNA_A01.genome.vcf.gz"
 output="./data/output/output.genome.vcf.gz"
 
 
-#--keep-INFO GENE \
-vcftools --gzvcf $input \
+vcftools --gzvcf $output \
+		--remove-indv LP6008242-DNA_A01 \
 		--recode \
-		--recode-INFO-all \
-		--keep-INFO clinvar \
 		--stdout > test.vcf
+
+#--keep-INFO GENE \ 
+# vcftools --gzvcf $output \
+# 		--depth
+
+
 		
 		#--recode \
 		#--recode-INFO-all \

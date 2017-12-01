@@ -1,19 +1,38 @@
-const base_path = './lib/data'
+const data_path = './lib/data'
+const annovar_path = './lib/annovar'
 
 module.exports = {
 
-    buildAnnotatingCommand: (analysis) => {
-        let command = 'bcftools annotate'
-        command += ' -a ' + base_path + '/hg19.bed.gz'
-        command += ' -c CHROM,FROM,TO,GENE '
-        command += ' -h ' + base_path + '/hg19header.hdr '
-        command += base_path + '/output/' + analysis.config['output_file']+'.gz'
-        command += ' > ' + base_path + '/output/' + analysis.config['output_file']
+    // buildAnnotatingCommand: (analysis) => {
+    //     let command = 'bcftools annotate'
+    //     command += ' -a ' + base_path + '/hg19.bed.gz'
+    //     command += ' -c CHROM,FROM,TO,GENE '
+    //     command += ' -h ' + base_path + '/hg19header.hdr '
+    //     command += base_path + '/output/' + analysis.config['output_file']+'.gz'
+    //     command += ' > ' + base_path + '/output/' + analysis.config['output_file']
 
+    //     return command
+    // },
+
+    buildAnnotatingCommand: (analysis) => {
+        let command = 'perl ' + annovar_path +'/table_annovar.pl '
+        command += data_path + '/output/' + analysis.config['output_file'] + ' '
+        command += annovar_path + '/humandb '
+        command += ' -buildver hg19'
+        command += ' -vcfinput '
+        command += ' -out ' + data_path + '/output/' + analysis.config['output_file']
+        command += ' -tempdir ' + annovar_path + '/tmp' 
+        command += ' -remove'
+        command += ' -protocol refGene,dbnsfp30a'
+        command += ' -operation gx,f'
+        command += ' -nastring .'
+        command += ' -polish'
+        command += ' -xref ' +  annovar_path + '/example/gene_fullxref.txt'  
+  
         return command
     },
 
-    buildFilteringCommand2: (analysis) => {        
+    buildFilteringCommand: (analysis) => {        
         let query = ''
 
         if (analysis.config['min-dp'] != '' && analysis.config['min-dp'] != null) {
@@ -71,49 +90,13 @@ module.exports = {
         }
             
         let command = "bcftools filter -i'" + query + "'"
-        command += " --output " + base_path + '/output/' + analysis.config['output_file']+'.gz'
-        command += " --output-type z " //gzipped
-        command += base_path + '/input/' + analysis.config['input_file']
+        command += " --output " + data_path + '/output/' + analysis.config['output_file'] + ' '
+        //command += " --output-type z " //gzipped
+        command += data_path + '/input/' + analysis.config['input_file']
 
         return command
     },
 
-    /*buildFilteringCommand: (analysis) => {        
-        let command = "vcftools --gzvcf " + base_path + '/input/' + analysis.config['input_file']
-
-        if (analysis.config['min-mean-dp'] != '' && analysis.config['min-mean-dp'] != null) {
-            command += ' --min-meanDP ' + analysis.config['min-mean-dp']
-        }
-        if (analysis.config['max-mean-dp'] != '' && analysis.config['max-mean-dp'] != null) {
-            command += ' --max-meanDP ' + analysis.config['max-mean-dp']
-        }
-        if (analysis.config['min-quality'] != '' && analysis.config['min-quality'] != null) {
-            command += ' --minQ ' + analysis.config['min-quality']
-        }
-        if (analysis.config['min-maf'] != '' && analysis.config['min-maf'] != null) {
-            command += ' --maf ' + analysis.config['min-maf']
-        }
-        if (analysis.config['max-maf'] != '' && analysis.config['max-maf'] != null) {
-            command += ' --max-maf ' + analysis.config['max-maf']
-        }
-
-        if (analysis.config['remove-non-passing-sites'] == true) {
-            command += ' --remove-filtered-all '
-        }
-
-        if (analysis.config['keep-only-indels'] == true) {
-            command += ' --keep-only-indels '
-        }
-        else {
-            command += ' --remove-indels '
-        }
-
-        //command += ' --recode --stdout > ' + base_path + '/output/' + analysis.config['output_file']
-        command += ' --recode --recode-INFO-all '
-        command +=' --stdout | gzip -c > ' + base_path + '/output/' + analysis.config['output_file']+'.gz'
-
-        return command
-    }*/
 
 };
 

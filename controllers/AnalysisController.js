@@ -33,7 +33,8 @@ self = module.exports = {
     filtering: (analysis, callback) => {
         console.log('Init Filtering Stage')
 
-        const command = CommandController.buildFilteringCommand2(analysis)
+        const command = CommandController.buildFilteringCommand(analysis)
+        //console.log(CommandController.buildFilteringCommand(analysis))
         //const command = 'echo 1'
 
         shell.exec(command, function(code, stdout, stderr) {
@@ -94,42 +95,63 @@ self = module.exports = {
 
     import: (analysis, callback) => {
         console.log('Init Import Stage')
-        const base_path = './lib/data/output/'
-        const reader = readline(base_path + analysis.config['output_file']);
-
+        const data_output_path = './lib/data/output/'
+        const reader = readline(data_output_path + analysis.config['output_annotated_file']);
+        //const reader = readline(base_path + 'example.out.vcf.hg19_multianno.vcf');
+        
         reader.on('line', function(line, lineCount, byteCount) {
             //Skip VCF header lines
             if (line.substring(0,1) != '#') {
                 const data = line.split('\t')
                 let site_record = {
-                    'CHROM': data[0],
-                    'POS': data[1],
-                    'ID': data[2] == '.' ? [] : data[2].split(';'),
-                    'REF': data[3],
-                    'ALT': data[4],
-                    'QUAL': data[5],
-                    'FILTER': data[6],
-                    'INFO': data[7].split(';'),
-                    'GENE': '',
-                    'FORMAT': data[8],
-                    'DATA': data[9],
+                    'CHROM':    data[0],
+                    'POS':      data[1],
+                    'ID':       data[2].split(';'),
+                    'REF':      data[3],
+                    'ALT':      data[4],
+                    'QUAL':     data[5],
+                    'FILTER':   data[6],
+                    'INFO':     data[7].split(';'),
+                    'GENE':     '',
+                    'FORMAT':   data[8],
+                    'DATA':     data[9],
                     'clinical_annotation': {
                         'cosmic':   '',
                         'clinvar':  ''
                     },
                 }
 
-                site_record['INFO'].forEach((tag) => {
-                    if (tag.includes('GENE')) {
-                        site_record['GENE'] = tag.split('=')[1]
-                    }
-                    if(tag.includes('clinvar')) {
-                        site_record['clinical_annotation']['clinvar'] = tag.split('=')[1]
-                    }
-                    if(tag.includes('cosmic')) {
-                        site_record['clinical_annotation']['cosmic'] = tag.split('=')[1]
-                    }
+                site_record['INFO'].forEach((info, i) => {
+                    let data = info.split('=')
+                    if(data.length == 2 && data[1] != '.') {
+                        site_record['INFO'][i] = data[0] + '=' + data[1].split('_').join(' ')
+                        site_record['INFO'][i] = site_record['INFO'][i]
+                                                .split("\\x3b")
+                                                .join(';')
+                                                .split("\\x3d")
+                                                .join('=')
+
+                        if (data[0] == 'Gene.refGene') {
+                            site_record['GENE'] = data[1].split("\\x3b")
+                        }
+                    } 
+
+
+                    
                 })
+
+
+                // site_record['INFO'].forEach((tag) => {
+                //     if (tag.includes('GENE')) {
+                //         site_record['GENE'] = tag.split('=')[1]
+                //     }
+                //     if(tag.includes('clinvar')) {
+                //         site_record['clinical_annotation']['clinvar'] = tag.split('=')[1]
+                //     }
+                //     if(tag.includes('cosmic')) {
+                //         site_record['clinical_annotation']['cosmic'] = tag.split('=')[1]
+                //     }
+                // })
             
                 let site = new Site(site_record)
                 site.save((err) => {

@@ -45,7 +45,9 @@ require('./database').connect(config.DB_URI)
 //--------------------------------------------
 app.use('/api/analysis', require('./routes/analysis.routes'))
 app.use('/api/sites', require('./routes/sites.routes'))
-
+app.head('/', (req, res) => {
+	res.status(200).send('Success')
+})
 
 app.use(function(err, req, res, next){
   res.status(400).json(err);
@@ -63,15 +65,31 @@ server.listen(port, function(err) {
 
 
 const Analysis = require('./models/analysis')
-Analysis.findOne({}, (err, analysis) => {
-	console.log(analysis)
+const Site = require('./models/site')
 
-	//console.log(require('./controllers/CommandController').buildFilteringCommand2(analysis))
+// Site.findOne({}, (err, site) => {
+// 	console.log(site.INFO[7]
+// 					.split("\\x3b")
+// 					.join(';')
+// 					.split("\\x3d")
+// 					.join('=')
+// 	)
+// })
+
+Analysis.findOne({}, (err, analysis) => {
+	//console.log(analysis)
+
+	//console.log(require('./controllers/CommandController').buildAnnotatingCommand(analysis))
+
 
 	// require('./controllers/AnalysisController').import(analysis, (err) => {
 	// 	if (err) throw err 
 	// 	else console.log('Finished')
 	// })
+
+	//var a = "GeneDetail.refGene=dist\x3d57704\x3bdist\x3d7061"
+	//console.log(a.split("\x3b").join(';'))
+	//site_record['INFO'][i] = info.split("\x3d").join('=')
 
 	//require('./jobs/AnalysisJob').handle(analysis)
 })

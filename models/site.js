@@ -9,7 +9,7 @@ const SiteSchema = mongoose.Schema({
 	'QUAL': 	{ 'type': Number, 'default': '' },
 	'FILTER': 	{ 'type': String, 'default': '' },
 	'INFO': 	[{ 'type': String, 'default': '' }],
-	'GENE': 	{ 'type': String, 'default': '' },
+	'GENE': 	[{ 'type': String, 'default': '' }],
 	'clinical_annotation': {
 		'cosmic': 	{ 'type': String, 'default': '' },
 		'clinvar': 	{ 'type': String, 'default': '' },
