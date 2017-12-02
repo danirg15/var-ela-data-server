@@ -7,5 +7,9 @@ module.exports = {
         Site.find(options).limit(limit).exec(callback)
     },
 
+    getOne: (id, callback) => {
+        Site.findById(id, callback)
+    },
+
 };
 

@@ -104,6 +104,7 @@ self = module.exports = {
             if (line.substring(0,1) != '#') {
                 const data = line.split('\t')
                 let site_record = {
+                    'analysis': analysis._id,
                     'CHROM':    data[0],
                     'POS':      data[1],
                     'ID':       data[2].split(';'),
@@ -135,8 +136,6 @@ self = module.exports = {
                             site_record['GENE'] = data[1].split("\\x3b")
                         }
                     } 
-
-
                     
                 })
 
