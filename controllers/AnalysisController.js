@@ -31,73 +31,68 @@ self = module.exports = {
     },
 
     filtering: (analysis, callback) => {
-        console.log('Init Filtering Stage')
-
-        const command = CommandController.buildFilteringCommand(analysis)
-        //console.log(CommandController.buildFilteringCommand(analysis))
-        //const command = 'echo 1'
-
-        shell.exec(command, function(code, stdout, stderr) {
-            if (code === 0) {
-                analysis.progress.stages.filtering = true
-                analysis.progress.percent = 40
-                self.update(analysis, (err) => { console.log(err) })
-
-                console.log('Finish Filtering Stage')
-
-                callback(null);
-            } else {
-                callback("Couldn't execute filtering stage")
-            }
-        })
-
+        if (analysis.progress.stages.filtering == true) {
+            //If stage compelted do nothing
+            callback(null)
+        }
+        else {
+            const command = CommandController.buildFilteringCommand(analysis)
+            shell.exec(command, function(code, stdout, stderr) {
+                if (code === 0) {
+                    analysis.progress.stages.filtering = true
+                    analysis.progress.percent = 30
+                    self.update(analysis, (err) => {})
+                    callback(null)
+                } else {
+                    callback("Couldn't execute filtering stage")
+                }
+            })
+        }        
     },
 
     annotating: (analysis, callback) => {
-        console.log('Init Annotating Stage')
-        const command = CommandController.buildAnnotatingCommand(analysis)
-        //const command = 'echo 1'
-
-        shell.exec(command, function(code, stdout, stderr) {
-            if (code === 0) {
-                analysis.progress.stages.annotating = true
-                analysis.progress.percent = 60
-                self.update(analysis, (err) => { console.log(err) })
-                console.log('Finish Annotating Stage')
-                callback(null);
-            } else {
-                callback("Couldn't execute annotating stage")
-            }
-        })
-
+        if (analysis.progress.stages.annotating == true) {
+            //If stage compelted do nothing
+            callback(null)
+        }
+        else {
+            const command = CommandController.buildAnnotatingCommand(analysis)
+            shell.exec(command, function(code, stdout, stderr) {
+                if (code === 0) {
+                    analysis.progress.stages.annotating = true
+                    analysis.progress.percent = 45
+                    self.update(analysis, (err) => {})
+                    callback(null)
+                } else {
+                    callback("Couldn't execute annotating stage")
+                }
+            })
+        }
     },
 
     stats: (analysis, callback) => {
-        console.log('Init Stats Stage')
-
-        const command = 'echo 1'
-        
-        shell.exec(command, function(code, stdout, stderr) {
-            if (code === 0) {
-                analysis.progress.stages.stats = true
-                analysis.progress.percent = 80
-                self.update(analysis, (err) => { console.log(err) })
-
-                console.log('Finish Stats Stage')
-
-                callback(null);
-            } else {
-                callback("Couldn't execute stats stage")
-            }
-        })
-
+        if (analysis.progress.stages.stats == true) {
+            //If stage compelted do nothing
+            callback(null)
+        }
+        else {
+            const command = 'echo 1'
+            shell.exec(command, function(code, stdout, stderr) {
+                if (code === 0) {
+                    analysis.progress.stages.stats = true
+                    analysis.progress.percent = 60
+                    self.update(analysis, (err) => {})
+                    callback(null)
+                } else {
+                    callback("Couldn't execute stats stage")
+                }
+            })
+        }
     },
 
     import: (analysis, callback) => {
-        console.log('Init Import Stage')
         const data_output_path = './lib/data/output/'
         const reader = readline(data_output_path + analysis.config['output_annotated_file']);
-        //const reader = readline(base_path + 'example.out.vcf.hg19_multianno.vcf');
         
         reader.on('line', function(line, lineCount, byteCount) {
             //Skip VCF header lines
@@ -115,11 +110,7 @@ self = module.exports = {
                     'INFO':     data[7].split(';'),
                     'GENE':     '',
                     'FORMAT':   data[8],
-                    'DATA':     data[9],
-                    'clinical_annotation': {
-                        'cosmic':   '',
-                        'clinvar':  ''
-                    },
+                    'DATA':     data[9]
                 }
 
                 site_record['INFO'].forEach((info, i) => {
@@ -139,19 +130,6 @@ self = module.exports = {
                     
                 })
 
-
-                // site_record['INFO'].forEach((tag) => {
-                //     if (tag.includes('GENE')) {
-                //         site_record['GENE'] = tag.split('=')[1]
-                //     }
-                //     if(tag.includes('clinvar')) {
-                //         site_record['clinical_annotation']['clinvar'] = tag.split('=')[1]
-                //     }
-                //     if(tag.includes('cosmic')) {
-                //         site_record['clinical_annotation']['cosmic'] = tag.split('=')[1]
-                //     }
-                // })
-            
                 let site = new Site(site_record)
                 site.save((err) => {
                     if (err)  callback(err)
@@ -160,11 +138,8 @@ self = module.exports = {
         })
         .on('end', function() {
             analysis.progress.stages.import = true
-            analysis.progress.percent = 100
-            self.update(analysis, (err) => { console.log(err) })
-
-            console.log('Finish Annotating Stage')
-
+            analysis.progress.percent = 75
+            self.update(analysis, (err) => {})
             callback(null)
         })
         .on('error', function(e) {
@@ -178,19 +153,13 @@ self = module.exports = {
         analysis.failed = false
         analysis.error_message = ""
         analysis.finishedAt = new Date()
-        self.update(analysis, (err) => { console.log(err) })
-
-        console.log('Finish Completed Stage')
-
+        self.update(analysis, (err) => { })
     },
 
     failed: (analysis, message) => {
         analysis.failed = true
         analysis.error_message = message
-        self.update(analysis, (err) => { console.log(err) })
-
-        console.log('Finish Failed Stage')
-
+        self.update(analysis, (err) => { })
     }
 
 };

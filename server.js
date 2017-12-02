@@ -81,15 +81,10 @@ Analysis.findOne({}, (err, analysis) => {
 
 	//console.log(require('./controllers/CommandController').buildAnnotatingCommand(analysis))
 
-
-	// require('./controllers/AnalysisController').import(analysis, (err) => {
+	// require('./controllers/AnalysisController').stats(analysis, (err) => {
 	// 	if (err) throw err 
 	// 	else console.log('Finished')
 	// })
-
-	//var a = "GeneDetail.refGene=dist\x3d57704\x3bdist\x3d7061"
-	//console.log(a.split("\x3b").join(';'))
-	//site_record['INFO'][i] = info.split("\x3d").join('=')
 
 	//require('./jobs/AnalysisJob').handle(analysis)
 })

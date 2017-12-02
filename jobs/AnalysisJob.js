@@ -9,26 +9,31 @@ module.exports = {
         async.waterfall([
             //Stage 2: Filteing
             function(callback) {
+                console.log('Filtering')
                 AnalysisController.filtering(analysis, callback)
             },
-            //Stage 3: Annotaing
+            //Stage 3: Annotating
             function(callback) {
+                console.log('Annotating')
                 AnalysisController.annotating(analysis, callback)
             },
             //Stage 4: Stats
             function(callback) {
+                console.log('Stats')
                 AnalysisController.stats(analysis, callback)
             },
             //Stage 5: Import
             function(callback) {
+                console.log('Import')
                 AnalysisController.import(analysis, callback)
             }
         ], function (err) {
             if (err) {
+                console.log('Job Failed')
                 AnalysisController.failed(analysis, err)
-                throw err
             }
             else {
+                console.log('Job Completed')
                 AnalysisController.completed(analysis)
             }
         })
