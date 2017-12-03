@@ -45,13 +45,15 @@ require('./database').connect(config.DB_URI)
 //--------------------------------------------
 app.use('/api/analysis', require('./routes/analysis.routes'))
 app.use('/api/sites', require('./routes/sites.routes'))
+app.use('/api/fs', require('./routes/fs.routes'))
+
 app.head('/', (req, res) => {
 	res.status(200).send('Success')
 })
 
 app.use(function(err, req, res, next){
   res.status(400).json(err);
-});
+})
 
 //--------------------------------------------
 //		Runnn!
@@ -77,7 +79,7 @@ const Site = require('./models/site')
 // })
 
 Analysis.findOne({}, (err, analysis) => {
-	//console.log(analysis)
+	console.log(analysis)
 
 	//console.log(require('./controllers/CommandController').buildAnnotatingCommand(analysis))
 
