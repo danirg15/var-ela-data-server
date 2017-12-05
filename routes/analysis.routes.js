@@ -17,6 +17,17 @@ router.get('/:id', (req, res) => {
 	})
 })
 
+router.get('/:id/download', (req, res) => {
+	AnalysisController.getOne(req.params.id, (err, analysis) => {
+		if (err) {
+			res.status(500).json(err)
+		}
+        else {
+        	var file = __dirname + '/../lib/data/output/' + analysis.config.output_file
+        	res.status(200).download(file)
+        }
+	})
+})
 
 router.get('/', (req, res) => {
 	AnalysisController.getAll((err, analysis) => {
@@ -24,5 +35,6 @@ router.get('/', (req, res) => {
         else res.status(200).json(analysis)
 	})
 })
+
 
 module.exports = router;

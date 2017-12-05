@@ -19,7 +19,7 @@ const AnalysisSchema = mongoose.Schema({
 	'progress' : {
 		'percent': { 'type': Number, 'required': false, 'default': 0 },
 		'stages': {
-			'submit': 		{ 'type': Boolean, 'default': true },
+			'submit': 		{ 'type': Boolean, 'default': false },
 			'filtering': 	{ 'type': Boolean, 'default': false },
 			'annotating': 	{ 'type': Boolean, 'default': false },
 			'stats': 		{ 'type': Boolean, 'default': false },
@@ -27,9 +27,10 @@ const AnalysisSchema = mongoose.Schema({
 			'completed': 	{ 'type': Boolean, 'default': false }
 		}
 	},
-	'result_sites_count': { 'type': Number, 'default': null },
+	'result_sites_count': { 'type': Number, 'default': 0 },
 	'failed': { 'type': Boolean, 'default': false },
 	'error_message': { 'type': String, 'default': '' },
+	'runnedAt':  { 'type': Date, 'default': null },
 	'finishedAt':  { 'type': Date, 'default': null }
 },{
 	timestamps: true

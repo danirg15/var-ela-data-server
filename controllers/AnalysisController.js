@@ -30,9 +30,24 @@ self = module.exports = {
         Analysis.count(options, callback)
     },
 
+    submit: (analysis, callback) => {
+        if (analysis.progress.stages.submit == true) {
+            //If stage completed do nothing
+            callback(null)
+        }
+        else {
+            analysis.progress.stages.submit = true
+            analysis.progress.percent = 15
+            analysis.runnedAt = new Date()
+            self.update(analysis, (err) => {
+                callback(null)
+            })  
+        }        
+    },
+
     filtering: (analysis, callback) => {
         if (analysis.progress.stages.filtering == true) {
-            //If stage compelted do nothing
+            //If stage completed do nothing
             callback(null)
         }
         else {
@@ -53,7 +68,7 @@ self = module.exports = {
 
     annotating: (analysis, callback) => {
         if (analysis.progress.stages.annotating == true) {
-            //If stage compelted do nothing
+            //If stage completed do nothing
             callback(null)
         }
         else {
@@ -74,7 +89,7 @@ self = module.exports = {
 
     stats: (analysis, callback) => {
         if (analysis.progress.stages.stats == true) {
-            //If stage compelted do nothing
+            //If stage completed do nothing
             callback(null)
         }
         else {

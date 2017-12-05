@@ -7,6 +7,11 @@ module.exports = {
     handle: (analysis, callback) => {
 
         async.waterfall([
+            //Stage 1: Submit
+            function(callback) {
+                console.log('Submit')
+                AnalysisController.submit(analysis, callback)
+            },
             //Stage 2: Filtering
             function(callback) {
                 console.log('Filtering')
