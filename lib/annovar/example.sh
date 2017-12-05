@@ -6,7 +6,7 @@
 
 
 perl table_annovar.pl \
-		example/ex2.vcf \
+		../data/output/output.vcf \
 		humandb/ \
 		-buildver hg19 \
 		-vcfinput \
@@ -14,7 +14,8 @@ perl table_annovar.pl \
 		-tempdir tmp \
 		-remove \
 		-protocol refGene,dbnsfp30a \
-		-operation gx,f \
+		-operation g,f \
 		-nastring . \
 		-polish \
-		-xref example/gene_fullxref.txt
+		#-xref example/gene_fullxref.txt
+		#-operation gx,f \

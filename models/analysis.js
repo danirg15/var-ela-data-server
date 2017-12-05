@@ -27,6 +27,7 @@ const AnalysisSchema = mongoose.Schema({
 			'completed': 	{ 'type': Boolean, 'default': false }
 		}
 	},
+	'result_sites_count': { 'type': Number, 'default': null },
 	'failed': { 'type': Boolean, 'default': false },
 	'error_message': { 'type': String, 'default': '' },
 	'finishedAt':  { 'type': Date, 'default': null }

@@ -4,7 +4,7 @@ const AnalysisController = require('../controllers/AnalysisController')
 
 module.exports = {
 
-    handle: (analysis) => {
+    handle: (analysis, callback) => {
 
         async.waterfall([
             //Stage 2: Filtering
@@ -30,11 +30,11 @@ module.exports = {
         ], function (err) {
             if (err) {
                 console.log('Job Failed')
-                AnalysisController.failed(analysis, err)
+                AnalysisController.failed(analysis, err, callback)
             }
             else {
                 console.log('Job Completed')
-                AnalysisController.completed(analysis)
+                AnalysisController.completed(analysis, callback)
             }
         })
 

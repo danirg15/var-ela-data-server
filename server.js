@@ -81,14 +81,18 @@ const Site = require('./models/site')
 Analysis.findOne({}, (err, analysis) => {
 	console.log(analysis)
 
-	//console.log(require('./controllers/CommandController').buildAnnotatingCommand(analysis))
+	//console.log(require('./controllers/CommandController').buildFilteringCommand(analysis))
 
 	// require('./controllers/AnalysisController').stats(analysis, (err) => {
 	// 	if (err) throw err 
 	// 	else console.log('Finished')
 	// })
 
-	//require('./jobs/AnalysisJob').handle(analysis)
+	// require('./jobs/AnalysisJob').handle(analysis, (err) => {
+	// 	if (err) throw err
+	// 	else console.log('Finished!')
+	// })
+
 })
 
 
