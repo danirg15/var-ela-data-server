@@ -11,5 +11,3 @@ input="./data/input/LP6008242-DNA_A01.genome.vcf.gz"
 
 bcftools filter -i'%QUAL > 30 && DP >= 3 && DP<=10 && %FILTER="PASS" && TYPE="snp"' -o test.vcf --output-type z  $input
 
-
-# bcftools filter -i'INFO/CIGAR=1' $input

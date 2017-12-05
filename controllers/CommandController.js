@@ -3,17 +3,6 @@ const annovar_path = './lib/annovar'
 
 module.exports = {
 
-    // buildAnnotatingCommand: (analysis) => {
-    //     let command = 'bcftools annotate'
-    //     command += ' -a ' + base_path + '/hg19.bed.gz'
-    //     command += ' -c CHROM,FROM,TO,GENE '
-    //     command += ' -h ' + base_path + '/hg19header.hdr '
-    //     command += base_path + '/output/' + analysis.config['output_file']+'.gz'
-    //     command += ' > ' + base_path + '/output/' + analysis.config['output_file']
-
-    //     return command
-    // },
-
     buildAnnotatingCommand: (analysis) => {
         let command = 'perl ' + annovar_path +'/table_annovar.pl '
         command += data_path + '/output/' + analysis.config['output_file'] + ' '
@@ -33,7 +22,7 @@ module.exports = {
     },
 
     buildFilteringCommand: (analysis) => {        
-        let query = ''
+        let query = ' '//Needed space to avoid bfctools error with empty query
 
         if (analysis.config['min-dp'] != '' && analysis.config['min-dp'] != null) {
             query += ' DP >= ' + analysis.config['min-dp']
@@ -91,7 +80,6 @@ module.exports = {
             
         let command = "bcftools filter -i'" + query + "'"
         command += " --output " + data_path + '/output/' + analysis.config['output_file'] + ' '
-        //command += " --output-type z " //gzipped
         command += data_path + '/input/' + analysis.config['input_file']
 
         return command
