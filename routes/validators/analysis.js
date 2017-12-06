@@ -14,9 +14,11 @@ module.exports = {
 		    	'min-quality': 		Joi.number().min(0).max(100).optional().allow(''),
 		    	'min-maf': 				Joi.number().precision(8).optional().allow(''),	
 		    	'max-maf': 				Joi.number().precision(8).optional().allow(''),	
-		    	'input_file': 		Joi.string().required(),
-		    	'output_file': 		Joi.string().required()
+		    	'input_file': 		Joi.array().items(Joi.string().optional().allow(''))
 		    }
 		  }
+	},
+	files: {
+		'files': 		Joi.array().items(Joi.string()).required(),
 	}
 }

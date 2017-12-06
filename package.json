@@ -31,7 +31,8 @@
     "mongoose": "^4.3.7",
     "nodemon": "^1.12.1",
     "password-hash": "^1.2.2",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.7.8",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

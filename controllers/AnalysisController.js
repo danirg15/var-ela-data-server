@@ -3,6 +3,7 @@ const Site = require('../models/site')
 const CommandController = require('./CommandController')
 const shell = require('shelljs')
 const readline = require('linebyline')
+const uuid = require('uuid/v4') 
 
 self = module.exports = {
 
@@ -15,7 +16,12 @@ self = module.exports = {
     },
 
     store: (analysis, callback) => {
-        (new Analysis(analysis)).save(callback)
+        const name = uuid()
+        analysis.config.output_file = name + '.vcf'
+        analysis.config.output_annotated_file = name + '.vcf.hg19_multianno.vcf'
+
+        let data = new Analysis(analysis)
+        data.save(callback)
     }, 
 
     destroy: (analysis_id, callback) => {

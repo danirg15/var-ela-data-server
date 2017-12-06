@@ -5,8 +5,8 @@ const AnalysisSchema = mongoose.Schema({
 	'description': 	{ 'type': String, 'required': false, 'default': ''},
 	'author': 		{ 'type': String, 'required': true },
 	'config': { 
-		'input_file': 		{ 'type': String, 'required': true },
-		'output_file': 		{ 'type': String, 'required': true },
+		'input_file': 		[{ 'type': String, 'required': false }],
+		'output_file': 		{ 'type': String, 'required': false, 'default': ''},
 		'output_annotated_file': { 'type': String, 'required': false, 'default': ''},
 		'min-dp': 			{ 'type': Number, 'required': false, 'default': '' },
 		'max-dp': 			{ 'type': Number, 'required': false, 'default': '' },

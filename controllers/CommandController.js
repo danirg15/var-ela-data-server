@@ -80,7 +80,7 @@ module.exports = {
             
         let command = "bcftools filter -i'" + query + "'"
         command += " --output " + data_path + '/output/' + analysis.config['output_file'] + ' '
-        command += data_path + '/input/' + analysis.config['input_file']
+        command += data_path + '/input' + analysis.config['input_file'][0]
 
         return command
     },
