@@ -171,7 +171,7 @@ self = module.exports = {
                 }
 
                 for (var i = 9; i < data.length; i++) {
-                    site_record['SAMPLE_DATA'].push(data[i]+' Sample:' + samples[i])
+                    site_record['SAMPLE_DATA'].push(data[i]+';' + samples[i])
                 }
 
                 site_record['INFO'].forEach((info, i) => {
@@ -193,7 +193,7 @@ self = module.exports = {
 
                 let site = new Site(site_record)
                 site.save((err) => {
-                    if (err)  callback(err)
+                    if (err) callback(err)
                     else count++
                 })
             }
