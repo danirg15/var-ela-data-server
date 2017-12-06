@@ -67,23 +67,12 @@ server.listen(port, function(err) {
 
 
 const Analysis = require('./models/analysis')
-const Site = require('./models/site')
-
-// Site.findOne({}, (err, site) => {
-// 	console.log(site.INFO[7]
-// 					.split("\\x3b")
-// 					.join(';')
-// 					.split("\\x3d")
-// 					.join('=')
-// 	)
-// })
-
 Analysis.findOne({}, (err, analysis) => {
-	console.log(analysis)
+	//console.log(analysis)
 
-	//console.log(require('./controllers/CommandController').buildFilteringCommand(analysis))
+	//console.log(require('./controllers/CommandController').buildMergeFilesCommand(analysis))
 
-	// require('./controllers/AnalysisController').stats(analysis, (err) => {
+	// require('./controllers/AnalysisController').import(analysis, (err) => {
 	// 	if (err) throw err 
 	// 	else console.log('Finished')
 	// })

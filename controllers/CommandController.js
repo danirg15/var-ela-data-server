@@ -3,23 +3,38 @@ const annovar_path = './lib/annovar'
 
 module.exports = {
 
-    buildAnnotatingCommand: (analysis) => {
-        let command = 'perl ' + annovar_path +'/table_annovar.pl '
-        command += data_path + '/output/' + analysis.config['output_file'] + ' '
-        command += annovar_path + '/humandb '
-        command += ' -buildver hg19'
-        command += ' -vcfinput '
-        command += ' -out ' + data_path + '/output/' + analysis.config['output_file']
-        command += ' -tempdir ' + annovar_path + '/tmp' 
-        command += ' -remove'
-        command += ' -protocol refGene,dbnsfp30a'
-        command += ' -operation gx,f'
-        command += ' -nastring .'
-        command += ' -polish'
-        command += ' -xref ' +  annovar_path + '/example/gene_fullxref.txt'  
-  
-        return command
+    buildMergeFilesCommand: (analysis) => {
+        //If there is only file, no need to merge, so just
+        //copy file to output renamed
+        if(analysis.config.input_files.length == 1) {
+            let command = 'cp '
+            command += data_path + '/input' + analysis.config.input_files[0] + ' '
+            command += data_path+'/output/'+analysis.config['output_merged_file']
+            return command
+        }
+        else if(analysis.config.input_files.length > 1) {
+
+            //To merge files, firstly the need to be indexed with tabix
+            let tabix_command = 'echo 1'
+            analysis.config.input_files.forEach((file) => {
+                tabix_command += ' && tabix -f -s 1 -b 2 ' + data_path + '/input' + file
+            })
+
+            //Actual merge command
+            let merge_command = 'bcftools merge --output-type z'
+            merge_command += ' --output ' + data_path + '/output/' + analysis.config['output_merged_file']
+            
+            analysis.config.input_files.forEach((file) => {
+                merge_command += ' ' + data_path + '/input' + file
+            })
+
+            return tabix_command + ' && ' + merge_command
+        }
+        else {
+            throw new Error('No input files in Merge Stage')
+        }
     },
+
 
     buildFilteringCommand: (analysis) => {        
         let query = ' '//Needed space to avoid bfctools error with empty query
@@ -79,12 +94,31 @@ module.exports = {
         }
             
         let command = "bcftools filter -i'" + query + "'"
-        command += " --output " + data_path + '/output/' + analysis.config['output_file'] + ' '
-        command += data_path + '/input' + analysis.config['input_file'][0]
+        command += " --output " + data_path + '/output/' + analysis.config['output_filtered_file'] + ' '
+        command += data_path + '/output/' + analysis.config['output_merged_file']
 
         return command
     },
 
 
+    buildAnnotatingCommand: (analysis) => {
+        let command = 'perl ' + annovar_path +'/table_annovar.pl '
+        command += data_path + '/output/' + analysis.config['output_filtered_file'] + ' '
+        command += annovar_path + '/humandb '
+        command += ' -buildver hg19'
+        command += ' -vcfinput '
+        command += ' -out ' + data_path + '/output/' + analysis.config['output_filtered_file']
+        command += ' -tempdir ' + annovar_path + '/tmp' 
+        command += ' -remove'
+        command += ' -protocol refGene,dbnsfp30a'
+        command += ' -operation gx,f'
+        command += ' -nastring .'
+        command += ' -polish'
+        command += ' -xref ' +  annovar_path + '/example/gene_fullxref.txt'  
+  
+        return command
+    }
+
+    
 };
 

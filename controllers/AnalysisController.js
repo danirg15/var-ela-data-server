@@ -17,8 +17,9 @@ self = module.exports = {
 
     store: (analysis, callback) => {
         const name = uuid()
-        analysis.config.output_file = name + '.vcf'
-        analysis.config.output_annotated_file = name + '.vcf.hg19_multianno.vcf'
+        analysis.config.output_merged_file = name + '.merged.vcf.gz'
+        analysis.config.output_filtered_file = name + '.filtered.vcf'
+        analysis.config.output_annotated_file = analysis.config.output_filtered_file + '.hg19_multianno.vcf'
 
         let data = new Analysis(analysis)
         data.save(callback)
@@ -43,11 +44,32 @@ self = module.exports = {
         }
         else {
             analysis.progress.stages.submit = true
-            analysis.progress.percent = 15
+            analysis.progress.percent = 0
             analysis.runnedAt = new Date()
             self.update(analysis, (err) => {
                 callback(null)
             })  
+        }        
+    },
+
+    merge_files: (analysis, callback) => {
+        if (analysis.progress.stages.merge == true) {
+            //If stage completed do nothing
+            callback(null)
+        }
+        else {
+            const command = CommandController.buildMergeFilesCommand(analysis)
+            shell.exec(command, function(code, stdout, stderr) {
+                if (code === 0) {
+                    analysis.progress.stages.merge = true
+                    analysis.progress.percent = 15
+                    self.update(analysis, (err) => {
+                        callback(null)
+                    })
+                } else {
+                    callback("Couldn't execute merge stage")
+                }
+            })
         }        
     },
 
@@ -118,11 +140,21 @@ self = module.exports = {
         const data_output_path = './lib/data/output/'
         const reader = readline(data_output_path + analysis.config['output_annotated_file']);
         var count = 0
+        var samples = []
 
         reader.on('line', function(line, lineCount, byteCount) {
             //Skip VCF header lines
-            if (line.substring(0,1) != '#') {
+            if (line.substring(0,2) != '##') {
                 const data = line.split('\t')
+
+                //If it's colums header we take the sample names
+                if(line.substring(0,1) == '#') {
+                    for (var i = 9; i < data.length; i++) {
+                        samples[i] = data[i]
+                    }
+                    return
+                }
+
                 let site_record = {
                     'analysis': analysis._id,
                     'CHROM':    data[0],
@@ -130,12 +162,16 @@ self = module.exports = {
                     'ID':       data[2].split(';'),
                     'REF':      data[3],
                     'ALT':      data[4],
-                    'QUAL':     data[5],
+                    'QUAL':     data[5] == '.' ? '' : data[5],
                     'FILTER':   data[6],
                     'INFO':     data[7].split(';'),
                     'GENE':     '',
                     'FORMAT':   data[8],
-                    'DATA':     data[9]
+                    'SAMPLE_DATA':     []
+                }
+
+                for (var i = 9; i < data.length; i++) {
+                    site_record['SAMPLE_DATA'].push(data[i]+' Sample:' + samples[i])
                 }
 
                 site_record['INFO'].forEach((info, i) => {

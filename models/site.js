@@ -13,7 +13,7 @@ const SiteSchema = mongoose.Schema({
 	'INFO': 	[{ 'type': String, 'default': '' }],
 	'GENE': 	[{ 'type': String, 'default': '' }],
 	'FORMAT': 	{ 'type': String, 'default': '' },
-	'DATA': 	{ 'type': String, 'default': '' }
+	'SAMPLE_DATA': 	[{ 'type': String, 'default': '' }]
 });
 
 

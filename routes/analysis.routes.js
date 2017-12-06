@@ -35,7 +35,7 @@ router.get('/:id/download', (req, res) => {
 router.post('/:id/input-files', validate(validators.analysis.files), (req, res) => {
 	let data = {
 		'_id': req.params.id,
-		'config.input_file': req.body.files
+		'config.input_files': req.body.files
 	}
 
 	AnalysisController.update(data, (err) => {
