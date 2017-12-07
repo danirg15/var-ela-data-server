@@ -137,7 +137,7 @@ self = module.exports = {
     },
 
     import: (analysis, callback) => {
-        const data_output_path = './lib/data/output/'
+        const data_output_path = process.env.DATA_PATH_DIR + '/output/'
         const reader = readline(data_output_path + analysis.config['output_annotated_file']);
         var count = 0
         var samples = []

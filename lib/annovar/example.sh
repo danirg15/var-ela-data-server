@@ -6,7 +6,7 @@
 
 
 perl table_annovar.pl \
-		../data/output/output.vcf \
+		../data/output/afd17b2a-fb76-434a-b3c0-e7cc154a10d2.filtered.vcf \
 		humandb/ \
 		-buildver hg19 \
 		-vcfinput \

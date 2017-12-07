@@ -10,7 +10,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN apt-get install -y vcftools
 RUN apt-get install -y bcftools
 
 RUN apt-get install -y wget
@@ -18,6 +17,8 @@ RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g nodemon
+RUN npm install
+RUN download_annovar_databases.sh
 
 WORKDIR /home
 

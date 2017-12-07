@@ -2,7 +2,7 @@ version: '2'
 services:
   data_server:
     build:
-      context: ./docker/data_server
+      context: .
       dockerfile: Dockerfile
     image: als/data_server
     volumes:

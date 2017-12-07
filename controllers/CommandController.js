@@ -1,5 +1,6 @@
-const data_path = './lib/data'
-const annovar_path = './lib/annovar'
+const data_path = process.env.DATA_PATH_DIR
+const annovar_path = process.env.ANNOVAR_PATH_DIR
+
 
 module.exports = {
 
@@ -37,7 +38,7 @@ module.exports = {
 
 
     buildFilteringCommand: (analysis) => {        
-        let query = ' '//Needed space to avoid bfctools error with empty query
+        let query = ''
 
         if (analysis.config['min-dp'] != '' && analysis.config['min-dp'] != null) {
             query += ' DP >= ' + analysis.config['min-dp']
@@ -91,8 +92,11 @@ module.exports = {
                     }
                 }
             }
-        }
-            
+        }   
+
+        //Needed space to avoid bfctools error with empty query
+        if (query == '') query = ' '
+                
         let command = "bcftools filter -i'" + query + "'"
         command += " --output " + data_path + '/output/' + analysis.config['output_filtered_file'] + ' '
         command += data_path + '/output/' + analysis.config['output_merged_file']

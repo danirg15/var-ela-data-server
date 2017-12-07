@@ -21,12 +21,14 @@ router.get('/:id', (req, res) => {
 })
 
 router.get('/:id/download', (req, res) => {
+	const data_output_path = process.env.DATA_PATH_DIR + '/output/'
+
 	AnalysisController.getOne(req.params.id, (err, analysis) => {
 		if (err) {
 			res.status(500).json(err)
 		}
         else {
-        	var file = __dirname + '/../lib/data/output/' + analysis.config.output_annotated_file
+        	var file = data_output_path + analysis.config.output_annotated_file
         	res.status(200).download(file)
         }
 	})

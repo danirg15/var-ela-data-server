@@ -1,4 +1,4 @@
 {
-    "DB_URI": "mongodb://localhost:27017/var_dev"
+    "DB_URI": "mongodb://mongo_database:27017/var_dev"
 }
 

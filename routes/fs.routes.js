@@ -3,9 +3,9 @@ let validate = require('express-validation');
 let shell = require('shelljs')
 
 router.get('/explore', (req, res) => {	
-	const data_path = process.env.DATA_PATH_DIR || 'lib/data/input'
+	const data_input_path = process.env.DATA_PATH_DIR + '/input'
 
-	let files_list = shell.find(data_path).filter(function(file) {
+	let files_list = shell.find(data_input_path).filter(function(file) {
 		if(req.query.name) {
 			const regex = new RegExp(req.query.name, 'gi');
 			return file.match(regex) && file.match(/\.vcf.gz$/)
