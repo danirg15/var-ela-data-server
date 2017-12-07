@@ -39,7 +39,6 @@ if(config.util.getEnv('NODE_ENV') !== 'test') {
 require('./database').connect(config.DB_URI)
 
 
-
 //--------------------------------------------
 //		Routing
 //--------------------------------------------
