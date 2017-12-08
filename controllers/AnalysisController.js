@@ -4,6 +4,8 @@ const CommandController = require('./CommandController')
 const shell = require('shelljs')
 const readline = require('linebyline')
 const uuid = require('uuid/v4') 
+const async = require('async')
+const fs = require('fs')
 
 self = module.exports = {
 
@@ -35,6 +37,24 @@ self = module.exports = {
 
     count: (options, callback) => {
         Analysis.count(options, callback)
+    },
+
+    remove_temp_files: (analysis, callback) => {
+        const data_path = process.env.DATA_PATH_DIR
+
+        async.parallel([
+            function(callback) {
+                const path = data_path+'/output/'+analysis.config.output_merged_file
+                fs.unlink(path, callback)
+            },
+            function(callback) {
+                const path = data_path+'/output/'+analysis.config.output_filtered_file
+                fs.unlink(path, callback)
+            }
+        ],
+        function(err) {
+            callback(err)
+        })
     },
 
     create_queue: () => {

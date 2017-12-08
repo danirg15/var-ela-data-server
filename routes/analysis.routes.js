@@ -2,6 +2,8 @@ const router = require('express').Router()
 const AnalysisController = require('../controllers/AnalysisController')
 const validate = require('express-validation');
 const validators = require('./validators');
+const async = require('async')
+const fs = require('fs')
 const genomeQueue = AnalysisController.create_queue()
 
 router.post('/', validate(validators.analysis.full), (req, res) => {
@@ -29,6 +31,27 @@ router.get('/:id', (req, res) => {
 	AnalysisController.getOne(req.params.id, (err, analysis) => {
 		if (err) res.status(500).json(err)
         else res.status(200).json(analysis)
+	})
+})
+
+router.delete('/:id', (req, res) => {
+	async.waterfall([
+	    function(callback) {
+	    	AnalysisController.getOne(req.params.id, callback)
+	    },
+	    function(analysis, callback) {
+	    	AnalysisController.destroy(analysis._id, (err) => {
+	    		callback(err, analysis)
+	    	})
+	    },
+	    function(analysis, callback) {
+	    	const data_path = process.env.DATA_PATH_DIR
+	    	const path = data_path+'/output/'+analysis.config.output_annotated_file
+	    	fs.unlink(path, callback)
+	    }
+	], (err) => {
+	    if (err) res.status(500).json(err)
+	    else res.status(200).json({})
 	})
 })
 

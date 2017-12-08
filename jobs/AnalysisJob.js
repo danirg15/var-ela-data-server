@@ -34,6 +34,11 @@ module.exports =  (job, done) => {
         function(callback) {
             console.log('Import')
             AnalysisController.import(analysis, callback)
+        },
+        //Clean up
+        function(callback) {
+            console.log('Cleaninig up')
+            AnalysisController.remove_temp_files(analysis, callback)
         }
     ], function (err) {
         if (err) {
