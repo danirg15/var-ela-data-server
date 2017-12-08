@@ -51,9 +51,9 @@ app.head('/', (req, res) => {
 })
 
 
-app.use(function(err, req, res, next){
-  res.status(400).json(err);
-})
+// app.use(function(err, req, res, next){
+//   res.status(400).json(err);
+// })
 
 //--------------------------------------------
 //		Runnn!

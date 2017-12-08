@@ -47,9 +47,16 @@ router.delete('/:id', (req, res) => {
 	    function(analysis, callback) {
 	    	const data_path = process.env.DATA_PATH_DIR
 	    	const path = data_path+'/output/'+analysis.config.output_annotated_file
-	    	fs.unlink(path, callback)
+
+	    	fs.stat(path, function(err, stat) {
+	    	    if(err == null) fs.unlink(path, callback)
+	    	    else callback(null)
+	    	})
+	    	
 	    }
 	], (err) => {
+		console.log(err)
+
 	    if (err) res.status(500).json(err)
 	    else res.status(200).json({})
 	})
