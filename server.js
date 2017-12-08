@@ -50,6 +50,7 @@ app.head('/', (req, res) => {
 	res.status(200).send('Success')
 })
 
+
 app.use(function(err, req, res, next){
   res.status(400).json(err);
 })
@@ -64,24 +65,6 @@ server.listen(port, function(err) {
 	console.log('Data Server running on port: ' + port)
 })
 
-
-const Analysis = require('./models/analysis')
-Analysis.findOne({}, (err, analysis) => {
-	//console.log(analysis)
-
-	//console.log(require('./controllers/CommandController').buildMergeFilesCommand(analysis))
-
-	// require('./controllers/AnalysisController').import(analysis, (err) => {
-	// 	if (err) throw err 
-	// 	else console.log('Finished')
-	// })
-
-	// require('./jobs/AnalysisJob').handle(analysis, (err) => {
-	// 	if (err) throw err
-	// 	else console.log('Finished!')
-	// })
-
-})
 
 
 

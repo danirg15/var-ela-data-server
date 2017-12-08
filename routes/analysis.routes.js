@@ -1,7 +1,8 @@
-let router = require('express').Router()
-let AnalysisController = require('../controllers/AnalysisController')
-let validate = require('express-validation');
-let validators = require('./validators');
+const router = require('express').Router()
+const AnalysisController = require('../controllers/AnalysisController')
+const validate = require('express-validation');
+const validators = require('./validators');
+const genomeQueue = AnalysisController.create_queue()
 
 router.post('/', validate(validators.analysis.full), (req, res) => {
 	AnalysisController.store(req.body, (err, obj) => {
@@ -10,6 +11,17 @@ router.post('/', validate(validators.analysis.full), (req, res) => {
         	'message': 'Analysis Submitted',
         	'obj': obj
         })
+	})
+})
+
+
+router.post('/:id/run', (req, res) => {
+	AnalysisController.getOne(req.params.id, (err, analysis) => {
+		if (err) res.status(500).json(err)
+        else {
+        	genomeQueue.add({'analysis': analysis})
+        	res.status(200).json({'message': 'Job running!'})
+        }
 	})
 })
 

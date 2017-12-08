@@ -37,6 +37,13 @@ self = module.exports = {
         Analysis.count(options, callback)
     },
 
+    create_queue: () => {
+        const Queue = require('bull')
+        let genomeQueue = new Queue('Genome Analysis', 'redis://redis:6379')
+        genomeQueue.process(4, require('../jobs/AnalysisJob.js'));
+        return genomeQueue
+    },
+
     submit: (analysis, callback) => {
         if (analysis.progress.stages.submit == true) {
             //If stage completed do nothing

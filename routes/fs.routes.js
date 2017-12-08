@@ -1,6 +1,6 @@
-let router = require('express').Router()
-let validate = require('express-validation');
-let shell = require('shelljs')
+const router = require('express').Router()
+const validate = require('express-validation');
+const shell = require('shelljs')
 
 router.get('/explore', (req, res) => {	
 	const data_input_path = process.env.DATA_PATH_DIR + '/input'
@@ -17,7 +17,7 @@ router.get('/explore', (req, res) => {
 
 	let listing = []
 	files_list.forEach((file) => {
-		listing.push(file.replace(data_path, ''))
+		listing.push(file.replace(data_input_path, ''))
 	})
 
 	res.status(200).json(listing)

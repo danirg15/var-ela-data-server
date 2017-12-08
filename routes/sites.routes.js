@@ -1,7 +1,7 @@
-let router = require('express').Router()
-let SiteController = require('../controllers/SiteController')
-let validate = require('express-validation');
-let validators = require('./validators');
+const router = require('express').Router()
+const SiteController = require('../controllers/SiteController')
+const validate = require('express-validation');
+const validators = require('./validators');
 
 router.get('/:id', (req, res) => {
 	SiteController.getOne(req.params.id, (err, site) => {
