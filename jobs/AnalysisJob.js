@@ -25,12 +25,7 @@ module.exports =  (job, done) => {
             console.log('Annotating')
             AnalysisController.annotating(analysis, callback)
         },
-        //Stage 5: Stats
-        function(callback) {
-            console.log('Stats')
-            AnalysisController.stats(analysis, callback)
-        },
-        //Stage 6: Import
+        //Stage 5: Import
         function(callback) {
             console.log('Import')
             AnalysisController.import(analysis, callback)

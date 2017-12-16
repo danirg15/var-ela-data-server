@@ -142,27 +142,6 @@ self = module.exports = {
         }
     },
 
-    stats: (analysis, callback) => {
-        if (analysis.progress.stages.stats == true) {
-            //If stage completed do nothing
-            callback(null)
-        }
-        else {
-            const command = 'echo 1'
-            shell.exec(command, function(code, stdout, stderr) {
-                if (code === 0) {
-                    analysis.progress.stages.stats = true
-                    analysis.progress.percent = 60
-                    self.update(analysis, (err) => {
-                        callback(null)
-                    })
-                } else {
-                    callback("Couldn't execute stats stage")
-                }
-            })
-        }
-    },
-
     import: (analysis, callback) => {
         const data_output_path = process.env.DATA_PATH_DIR + '/output/'
         const reader = readline(data_output_path + analysis.config['output_annotated_file']);
