@@ -1,6 +1,7 @@
 const Analysis = require('../models/analysis')
 const Site = require('../models/site')
 const CommandController = require('./CommandController')
+const SiteController = require('./SiteController')
 const shell = require('shelljs')
 const readline = require('linebyline')
 const uuid = require('uuid/v4') 
@@ -28,7 +29,9 @@ self = module.exports = {
     }, 
 
     destroy: (analysis_id, callback) => {
-        Analysis.findByIdAndRemove(analysis_id, callback)
+        Analysis.findByIdAndRemove(analysis_id, (err) => {
+            SiteController.removeSitesOfAnalysis(analysis_id, callback)
+        })
     },
 
     update: (analysis,callback) => {

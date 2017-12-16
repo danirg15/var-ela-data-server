@@ -11,5 +11,9 @@ module.exports = {
         Site.findById(id, callback)
     },
 
+    removeSitesOfAnalysis: (analysis_id, callback) => {
+    	Site.remove({'analysis': analysis_id}, callback)
+    }
+
 };
 
