@@ -83,7 +83,7 @@ router.get('/:id/download/:type', (req, res) => {
 	})
 })
 
-router.post('/:id/input-files', validate(validators.analysis.files), (req, res) => {
+router.put('/:id/input-files', validate(validators.analysis.files), (req, res) => {
 	let data = {
 		'_id': req.params.id,
 		'config.input_files': req.body.files
