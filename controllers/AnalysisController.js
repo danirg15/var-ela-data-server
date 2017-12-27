@@ -42,6 +42,42 @@ self = module.exports = {
         Analysis.count(options, callback)
     },
 
+    remove_analysis_files: (analysis, callback) => {
+        const data_path = process.env.DATA_PATH_DIR
+
+        async.parallel([
+            function(callback) {
+                const path = data_path+'/output/'+analysis.config.output_annotated_file
+                fs.stat(path, function(err, stat) {
+                    if(err == null) fs.unlink(path, callback)
+                    else callback(null)
+                })
+            },
+            function(callback) {
+                let path = data_path+'/output/'+analysis.config.output_annotated_file
+                path = path.slice(0, -3)
+                path += 'txt'
+
+                fs.stat(path, function(err, stat) {
+                    if(err == null) fs.unlink(path, callback)
+                    else callback(null)
+                })
+            },
+            function(callback) {
+                let path = data_path+'/output/'+analysis.config.output_filtered_file
+                path += '.avinput'
+                                
+                fs.stat(path, function(err, stat) {
+                    if(err == null) fs.unlink(path, callback)
+                    else callback(null)
+                })
+            }
+        ],
+        function(err) {
+            callback(err)
+        })
+    },
+
     remove_temp_files: (analysis, callback) => {
         const data_path = process.env.DATA_PATH_DIR
 
