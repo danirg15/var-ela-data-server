@@ -56,15 +56,28 @@ router.delete('/:id', (req, res) => {
 	})
 })
 
-router.get('/:id/download', (req, res) => {
+router.get('/:id/download/:type', (req, res) => {
 	const data_output_path = process.env.DATA_PATH_DIR + '/output/'
+	const output_type = req.params.type
 
 	AnalysisController.getOne(req.params.id, (err, analysis) => {
 		if (err) {
 			res.status(500).json(err)
 		}
+		else if(output_type != 'vcf' && output_type != 'txt') {
+			res.status(400).json({'error': 'Bad type'})
+		}
         else {
-        	var file = data_output_path + analysis.config.output_annotated_file
+
+        	if (output_type == 'vcf') {
+        		var file = data_output_path + analysis.config.output_annotated_file
+        	}
+        	else {
+        		var file = data_output_path + analysis.config.output_annotated_file
+        		file = file.slice(0, -3)
+        		file += 'txt'
+        	}	
+
         	res.status(200).download(file)
         }
 	})
