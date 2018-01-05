@@ -20,18 +20,14 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(session({ secret: process.env.APP_KEY, resave: false, saveUninitialized: false }));
+app.use(logger('dev'))
 
 //--------------------------------------------
 //		Configuration
 //--------------------------------------------
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 moment_tz.tz.setDefault(process.env.APP_TIME_ZONE || 'Europe/Madrid');
-
-if(config.util.getEnv('NODE_ENV') !== 'test') {
-    app.use(logger('dev'))
-}
-
 
 //--------------------------------------------
 //		DB connection
@@ -50,10 +46,6 @@ app.head('/', (req, res) => {
 	res.status(200).send('Success')
 })
 
-
-// app.use(function(err, req, res, next){
-//   res.status(400).json(err);
-// })
 
 //--------------------------------------------
 //		Runnn!
