@@ -61,10 +61,13 @@ app.head('/', (req, res) => {
 const server = http.createServer(app)
 
 server.listen(port, function(err) {
-	if (err) throw err
-	console.log('Data Server running on port: ' + port)
+	if (err) { 
+		throw err
+	}
+	else {
+		console.log('Data Server running on port: ' + port)
+		console.log('Local Gateway: ' + require('ip').address().slice(0, -1) + '1')
+	}	
 })
-
-
 
 
