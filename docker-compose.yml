@@ -7,6 +7,7 @@ services:
     image: als/data_server
     volumes:
      - .:/home
+     - /home/node_modules
     ports:
      - "5000:5000"
     links:
