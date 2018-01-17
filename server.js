@@ -40,9 +40,9 @@ require('./database').connect(config.DB_URI)
 //--------------------------------------------
 const apiKey = require('./middleware/apiKey')
 
-app.use('/api/analysis', apiKey, require('./routes/analysis.routes'))
-app.use('/api/sites', apiKey, require('./routes/sites.routes'))
-app.use('/api/fs', apiKey, require('./routes/fs.routes'))
+app.use('/api/analysis', /*apiKey,*/ require('./routes/analysis.routes'))
+app.use('/api/sites', /*apiKey,*/ require('./routes/sites.routes'))
+app.use('/api/fs', /*apiKey,*/ require('./routes/fs.routes'))
 
 app.head('/', apiKey, (req, res) => {
 	res.status(200).send('Success')
