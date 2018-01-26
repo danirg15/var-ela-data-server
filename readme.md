@@ -1,16 +1,10 @@
-# XXXXXXX
+# VAR ELA Data Server
 
-XXXXXX is an application to execute genomic analyses over VCF files, focused on ease task like filtering and annotating several sample files very easily. This sofwate module is intended for being installed were data is hosted, instead of bring the data to the app. 
-Let's say we want to perform analyses with VCF files stored in a remote machine, using XXXX we just install this module in the machine and using XXXXX web client is a breeze to perform ad-hoc analyses against those VCF files.
+It's an application to execute genomic analyses over VCF files, focused on ease task like filtering and annotating several sample files. This software module is intended for being installed were data is hosted, instead of bring the data to the app. 
+Let's say we want to perform analyses with VCF files stored in a remote machine,  We just install this module in the machine and using [var-ela-app-server](https://gitlab.com/dani.rg15/var-ela-app-server "") web client is a breeze to perform ad-hoc analyses against those VCF files.
 
-# Architecture
-	*Comming soon!*
 
-	Ubuntu with bcftools and annovar
-	Redis
-	MongoDB
-
-# Important Dependencies
+# Dependencies
 #### BCFTools
 https://samtools.github.io/bcftools/bcftools.html
 	 
@@ -25,7 +19,7 @@ ANNOVAR is an efficient software tool to utilize update-to-date information to f
 ANNOVAR is used to add extra information to the sample VCF files, like Gene annotations, references to multiple clinical databases, etc...
 
 # API
-XXXXX provides an REST API which is used by a web client like XXXXXX, to defined analyses, or perform searches in already completed analyses.
+This app provides an REST API which is used by a web client like [var-ela-app-server](https://gitlab.com/dani.rg15/var-ela-app-server ""), to defined analyses, or perform searches in already completed analyses.
 
 ##### Analysis
 * Create a new analysis.
@@ -78,6 +72,7 @@ Once a job is launched, 6 stages are executed:
 
 6. **Completed (or Failed)**: At this stage the job is updated with result status, error messages, etc....
 
+
 # Use
 The application runs inside a Docker containaer, so to deploy this app just run the following commands.
 
@@ -88,7 +83,7 @@ $ sudo apt -y install docker docker-compose
 
 #### Clone git repo
 ```sh
-$ git clone XXXX_repo
+$ git clone https://gitlab.com/dani.rg15/var-ela-data-server.git
 ```
 
 #### Run app
@@ -96,10 +91,8 @@ $ git clone XXXX_repo
 This process may take several minutes because the ANNOVAR databases are downloaded as well during the deployment.
 
 ```sh
-$ cd XXXXX
+$ cd var-ela-data-server
 $ sudo docker-compose up
 ```
 The app will run in port 5000 by default, this can be changed in .env
 
-# License
-The MIT License (MIT)
